@@ -21,8 +21,15 @@ steps:
     python get-pip.py
   displayName: 'Install pip'
 
+# Passo para garantir que pip está instalado
 - script: |
+    python -m ensurepip --upgrade
     python -m pip install --upgrade pip
+  displayName: 'Ensure pip is installed'
+
+# Adicionar diretório de scripts do Python ao PATH
+- script: |
+    set PATH=%PATH%;C:\Users\henri\Desktop\Docs\agent\_work\1\s\Scripts
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
