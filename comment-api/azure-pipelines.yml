@@ -10,24 +10,28 @@ variables:
   imageName: 'riquez/comment-api'
 
 steps:
+- checkout: self
+  displayName: 'Checkout code'
+  persistCredentials: true
+
+# Mover o conteúdo da subpasta 'comment-api' para o diretório raiz
+- script: |
+    echo Moving content from comment-api to root directory
+    mkdir temp && cp -r comment-api/* temp && rm -rf * && mv temp/* . && rm -rf temp
+  displayName: 'Move comment-api content to root directory'
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.12'
     addToPath: true
 
-# Novo passo para garantir que pip está instalado
-- script: |
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python get-pip.py
-  displayName: 'Install pip'
-
-# Passo para garantir que pip está instalado
+# Garantir que pip está instalado e atualizado
 - script: |
     python -m ensurepip --upgrade
     python -m pip install --upgrade pip
-  displayName: 'Ensure pip is installed'
+  displayName: 'Ensure pip is installed and upgraded'
 
-# Adicionar diretório de scripts do Python ao PATH
+# Adicionar diretório de scripts do Python ao PATH e instalar dependências
 - script: |
     set PATH=%PATH%;C:\Users\henri\Desktop\Docs\agent\_work\1\s\Scripts
     pip install -r requirements.txt
