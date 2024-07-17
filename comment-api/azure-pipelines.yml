@@ -4,10 +4,10 @@ trigger:
       - main
 
 pool:
-  name: 'Default'  # Substitua pelo nome do seu pool de agentes, se necessário
+  vmImage: 'ubuntu-latest'
 
 variables:
-  imageName: 'comment-api'
+  imageName: 'riquez/comment-api'
 
 steps:
 - task: UsePythonVersion@0
@@ -26,7 +26,7 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: 'yourACRConnection'
+    containerRegistry: 'dockerHubConnection'  # Nome da conexão de serviço configurada para o Docker Hub
     repository: '$(imageName)'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
