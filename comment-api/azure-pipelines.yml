@@ -60,11 +60,22 @@ steps:
       pip install -r requirements.txt
   displayName: 'Install dependencies'
 
+# Depuração: Listar arquivos antes de executar os testes
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      python -m unittest discover
+      Write-Host "Listando arquivos antes de executar os testes:"
+      Get-ChildItem -Recurse
+  displayName: 'List files before running tests'
+
+# Executar Testes
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "Running tests..."
+      python -m unittest discover -s tests
   displayName: 'Run tests'
 
 - task: Docker@2
