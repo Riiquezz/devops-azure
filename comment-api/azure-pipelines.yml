@@ -15,15 +15,17 @@ steps:
   persistCredentials: true
 
 # Mover o conteúdo da subpasta 'comment-api' para o diretório raiz
-- script: |
-    Write-Host "Moving content from comment-api to root directory"
-    New-Item -ItemType Directory -Path temp
-    Copy-Item -Path comment-api\* -Destination temp -Recurse
-    Remove-Item -Path * -Recurse -Force
-    Move-Item -Path temp\* -Destination .
-    Remove-Item -Path temp -Recurse -Force
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "Moving content from comment-api to root directory"
+      New-Item -ItemType Directory -Path temp
+      Copy-Item -Path comment-api\* -Destination temp -Recurse
+      Remove-Item -Path * -Recurse -Force
+      Move-Item -Path temp\* -Destination .
+      Remove-Item -Path temp -Recurse -Force
   displayName: 'Move comment-api content to root directory'
-  pwsh: true
 
 - task: UsePythonVersion@0
   inputs:
@@ -31,23 +33,29 @@ steps:
     addToPath: true
 
 # Garantir que pip está instalado e atualizado
-- script: |
-    python -m ensurepip --upgrade
-    python -m pip install --upgrade pip
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      python -m ensurepip --upgrade
+      python -m pip install --upgrade pip
   displayName: 'Ensure pip is installed and upgraded'
-  pwsh: true
 
 # Adicionar diretório de scripts do Python ao PATH e instalar dependências
-- script: |
-    $env:PATH += ";C:\Users\henri\Desktop\Docs\agent\_work\1\s\Scripts"
-    pip install -r requirements.txt
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $env:PATH += ";C:\Users\henri\Desktop\Docs\agent\_work\1\s\Scripts"
+      pip install -r requirements.txt
   displayName: 'Install dependencies'
-  pwsh: true
 
-- script: |
-    python -m unittest discover
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      python -m unittest discover
   displayName: 'Run tests'
-  pwsh: true
 
 - task: Docker@2
   inputs:
