@@ -20,10 +20,10 @@ steps:
     targetType: 'inline'
     script: |
       Write-Host "Moving content from comment-api to root directory"
-      New-Item -ItemType Directory -Path temp
-      Copy-Item -Path comment-api\* -Destination temp -Recurse
-      Remove-Item -Path * -Recurse -Force
-      Move-Item -Path temp\* -Destination .
+      New-Item -ItemType Directory -Path temp -Force
+      Copy-Item -Path comment-api\* -Destination temp -Recurse -Force
+      Remove-Item -Path * -Recurse -Force -Exclude temp
+      Move-Item -Path temp\* -Destination . -Force
       Remove-Item -Path temp -Recurse -Force
   displayName: 'Move comment-api content to root directory'
 
