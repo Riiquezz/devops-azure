@@ -25,6 +25,7 @@ steps:
       Remove-Item -Path * -Recurse -Force -Exclude temp
       Move-Item -Path temp\* -Destination . -Force
       Remove-Item -Path temp -Recurse -Force
+      Get-ChildItem -Recurse  # Listar os arquivos para depuração
   displayName: 'Move comment-api content to root directory'
 
 - task: UsePythonVersion@0
