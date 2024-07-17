@@ -28,8 +28,10 @@ steps:
       } else {
           Write-Error "Failed to copy files to temp directory"
       }
-      Remove-Item -Path * -Recurse -Force -Exclude temp
-      Move-Item -Path temp\* -Destination . -Force
+      Write-Host "Clearing the root directory excluding temp"
+      Get-ChildItem -Path . -Exclude temp | Remove-Item -Recurse -Force
+      Write-Host "Moving files from temp to root"
+      Get-ChildItem -Path temp | Move-Item -Destination . -Recurse -Force
       Remove-Item -Path temp -Recurse -Force
       Write-Host "Files in the root directory after move:"
       Get-ChildItem -Recurse
