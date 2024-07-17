@@ -22,10 +22,17 @@ steps:
       Write-Host "Moving content from comment-api to root directory"
       New-Item -ItemType Directory -Path temp -Force
       Copy-Item -Path comment-api\* -Destination temp -Recurse -Force
+      if (Test-Path -Path temp) {
+          Write-Host "Files copied to temp directory:"
+          Get-ChildItem -Path temp -Recurse
+      } else {
+          Write-Error "Failed to copy files to temp directory"
+      }
       Remove-Item -Path * -Recurse -Force -Exclude temp
       Move-Item -Path temp\* -Destination . -Force
       Remove-Item -Path temp -Recurse -Force
-      Get-ChildItem -Recurse  # Listar os arquivos para depuração
+      Write-Host "Files in the root directory after move:"
+      Get-ChildItem -Recurse
   displayName: 'Move comment-api content to root directory'
 
 - task: UsePythonVersion@0
