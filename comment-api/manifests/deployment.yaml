@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comment-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: comment-api
+  template:
+    metadata:
+      labels:
+        app: comment-api
+    spec:
+      containers:
+      - name: comment-api
+        image: youracr.azurecr.io/comment-api:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_ENV
+          value: production
