@@ -4,7 +4,7 @@ trigger:
       - main
 
 pool:
-  name: 'Default'
+  name: 'Default'  # Nome do pool de agentes self-hosted
 
 variables:
   imageName: 'riquez/comment-api'
@@ -14,6 +14,12 @@ steps:
   inputs:
     versionSpec: '3.12'
     addToPath: true
+
+# Novo passo para garantir que pip está instalado
+- script: |
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python get-pip.py
+  displayName: 'Install pip'
 
 - script: |
     python -m pip install --upgrade pip
